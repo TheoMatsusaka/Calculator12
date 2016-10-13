@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //region Instance Variables
     public Button button1, button2, button3, button4, button5, button6, button7, button8, button9, buttonEnter, buttonAdd, buttonSub, buttonMult,
-    buttonDivide, buttonAC, buttonDec, buttonAns, button0;
+    buttonDivide, buttonAC, buttonDec, buttonAns, button0, buttonSin, buttonCos, buttonTan, buttonLog, buttonLn;
     public ImageButton imageBack;
     public String[] numbers;
     public int signNum;
@@ -44,6 +44,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             buttonSub.setEnabled(false);
             buttonMult.setEnabled(false);
             buttonDivide.setEnabled(false);
+            buttonSin.setEnabled(false);
+            buttonCos.setEnabled(false);
+            buttonTan.setEnabled(false);
+            buttonLog.setEnabled(false);
+            buttonLn.setEnabled(false);
         }
         else{
             imageBack.setEnabled(true);
@@ -51,6 +56,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             buttonSub.setEnabled(true);
             buttonMult.setEnabled(true);
             buttonDivide.setEnabled(true);
+            buttonSin.setEnabled(true);
+            buttonCos.setEnabled(true);
+            buttonTan.setEnabled(true);
+            buttonLog.setEnabled(true);
+            buttonLn.setEnabled(true);
 
         }
     }
@@ -75,6 +85,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonAC.setOnClickListener(this);
         buttonDivide.setOnClickListener(this);
         imageBack.setOnClickListener(this);
+        buttonSin.setOnClickListener(this);
+        buttonCos.setOnClickListener(this);
+        buttonTan.setOnClickListener(this);
+        buttonLog.setOnClickListener(this);
+        buttonLn.setOnClickListener(this);
 
 
 
@@ -101,6 +116,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageBack = (ImageButton) findViewById(R.id.button_back);
         screen = (TextView) findViewById(R.id.screen);
         button0 = (Button) findViewById(R.id.button_zero);
+        buttonSin = (Button) findViewById(R.id.button_sin);
+        buttonCos = (Button) findViewById(R.id.button_cos);
+        buttonTan = (Button) findViewById(R.id.button_tan);
+        buttonLog = (Button) findViewById(R.id.button_log);
+        buttonLn = (Button) findViewById(R.id.button_ln);
 
     }
 
@@ -118,11 +138,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         checkPossible();
         switch(view.getId()) {
-//            case R.id.button_enter :         Calculator x = new Calculator(number1, number2, signNum); switch(signNum){
-//                case ADD : ans = x.add(); screen.setText(ans); break;
-//                case SUB : ans = x.sub(); break;
-//                case MULT : ans = x.mul(); break;
-//                case DIV : ans = x.div(); break;
 
             case R.id.button_back :
                 numbers[holder] = numbers[holder].substring(0,numbers[holder].length()-1);
@@ -227,12 +242,60 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 holder =0;
                 numbers[holder] ="";
                 numbers[holder+1] =""; checkPossible(); break;
+
             case R.id.button_answer :
                 numbers[holder] += third;
                 screen.setText(numbers[holder]); checkPossible();
                 break;
 
+            //region Trigonometric Buttons
+            case R.id.button_sin :
+                holder = 0;
+                double fird = Double.parseDouble(numbers[0]);
+                third = Math.sin(fird);
+                screen.setText(third+"");
+                numbers[holder] = third + "";
+                checkPossible();
+                break;
 
+            case R.id.button_cos :
+                holder = 0;
+                double dird = Double.parseDouble(numbers[0]);
+                third = Math.cos(dird);
+                screen.setText(third+"");
+                numbers[holder] = third + "";
+                checkPossible();
+                break;
+
+            case R.id.button_tan : checkPossible();
+                holder = 0;
+                double gird = Double.parseDouble(numbers[0]);
+                third = Math.tan(gird);
+                screen.setText(third+"");
+                numbers[holder] = third + "";
+                checkPossible();
+                break;
+            //endregion
+
+            //region Log and Ln Buttons
+            case R.id.button_log :
+                holder = 0;
+                double qird = Double.parseDouble(numbers[0]);
+                third = Math.log10(qird);
+                screen.setText(third+"");
+                numbers[holder] = third + "";
+                checkPossible();
+                break;
+
+            case R.id.button_ln :
+                holder = 0;
+                double jird = Double.parseDouble(numbers[0]);
+                third = Math.log(jird);
+                screen.setText(third+"");
+                numbers[holder] = third + "";
+                checkPossible();
+                break;
+            //endregion
         }
     }
 }
