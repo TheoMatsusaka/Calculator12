@@ -1,3 +1,4 @@
+//region Code
 package com.example.calculator;
 
 import android.os.Bundle;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         checkPossible();
     }
 
+    //region Methods
     private void checkPossible() {
         if(numbers[holder].length()==0)
         {
@@ -102,8 +104,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
-
     private void calculate() {
         holder = 0;
         screen.setText("");
@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
+    //endregion
 
     @Override
     public void onClick(View view) {
@@ -191,6 +192,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 numbers[holder] = ""; break;
             //endregion
 
+            //region Enter Button
             case R.id.button_enter :
                 holder = 0;
                 double first = Double.parseDouble(numbers[0]);
@@ -218,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     numbers[holder] = third+"";
                 }
                     break;
+            //endregion
 
 
             case R.id.button_ac : screen.setText("");
@@ -233,3 +236,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 }
+//endregion
