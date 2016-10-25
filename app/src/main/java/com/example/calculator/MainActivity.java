@@ -6,24 +6,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     //region Instance Variables
     public Button button1, button2, button3, button4, button5, button6, button7, button8, button9, buttonEnter, buttonAdd, buttonSub, buttonMult,
-    buttonDivide, buttonAC, buttonDec, buttonAns, button0, buttonSin, buttonCos, buttonTan, buttonLog, buttonLn;
-    public ImageButton imageBack;
+            buttonDivide, buttonAC, buttonDec, buttonAns, button0, buttonSin, buttonCos, buttonTan, buttonLog, buttonLn;
+    public ImageButton imageBack, imageBG;
     public String[] numbers;
-    public int signNum;
-    public double third;
+    public ArrayList<Integer> backgrounds;
+    public int signNum, bGPosition, holder;
+    public double third, first, second;
     public static final int ADD = 0;
     public static final int SUB = 1;
     public static final int DIV = 2;
     public static final int MULT = 3;
     public TextView screen;
-    public int holder;
+    public LinearLayout background;
+
     //endregion
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,13 +39,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setListeners();
         calculate();
         checkPossible();
+        makeList();
+        buttonAns.setEnabled(false);
+    }
+
+    private void makeList() {
     }
 
     //region Methods
     private void checkPossible() {
-        if(numbers[holder].length()==0)
-        {
-            imageBack.setEnabled(false);
+        if (numbers[0].length()==0) {
+//            imageBack.setEnabled(false);
             buttonAdd.setEnabled(false);
             buttonSub.setEnabled(false);
             buttonMult.setEnabled(false);
@@ -49,9 +59,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             buttonTan.setEnabled(false);
             buttonLog.setEnabled(false);
             buttonLn.setEnabled(false);
+            buttonEnter.setEnabled(false);
         }
-        else{
-            imageBack.setEnabled(true);
+
+        else {
+//            imageBack.setEnabled(true);
             buttonAdd.setEnabled(true);
             buttonSub.setEnabled(true);
             buttonMult.setEnabled(true);
@@ -61,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             buttonTan.setEnabled(true);
             buttonLog.setEnabled(true);
             buttonLn.setEnabled(true);
+            buttonEnter.setEnabled(true);
 
         }
     }
@@ -90,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonTan.setOnClickListener(this);
         buttonLog.setOnClickListener(this);
         buttonLn.setOnClickListener(this);
-
+        imageBG.setOnClickListener(this);
 
 
     }
@@ -121,6 +134,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonTan = (Button) findViewById(R.id.button_tan);
         buttonLog = (Button) findViewById(R.id.button_log);
         buttonLn = (Button) findViewById(R.id.button_ln);
+        imageBG = (ImageButton) findViewById(R.id.imageButton_background);
+        background = (LinearLayout) findViewById(R.id.layor_background);
 
     }
 
@@ -128,170 +143,260 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         holder = 0;
         screen.setText("");
         numbers = new String[2];
-        numbers[holder]="";
+        numbers[0] = "";
+        numbers[1] = "";
 
 
     }
+
+    private void setFirst() {
+        if(numbers[0].length()==0){
+            numbers[0]= third+"";
+        }
+    }
+
+    private void makeToast(){
+        if(numbers[holder].length()==0) {
+            Toast.makeText(MainActivity.this, "There is nothing to delete", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
     //endregion
 
     @Override
     public void onClick(View view) {
         checkPossible();
-        switch(view.getId()) {
+        switch (view.getId()) {
 
-            case R.id.button_back :
-                numbers[holder] = numbers[holder].substring(0,numbers[holder].length()-1);
-                screen.setText(numbers[holder]); checkPossible();
+            case R.id.button_back:
+                setFirst();
+                makeToast();
+                if(numbers[holder].length()==0)
+                    break;
+                numbers[holder] = numbers[holder].substring(0, numbers[holder].length() - 1);
+                screen.setText(numbers[holder]);
+                checkPossible();
                 break;
 
-            case R.id.button_point : numbers[holder] += .0;
-                numbers[holder] = numbers[holder].substring(0,numbers[holder].length()-1);
-                numbers[holder] = numbers[holder].substring(0,numbers[holder].length()-2)+
-                        numbers[holder].substring(numbers[holder].length()-1, numbers[holder].length());
-            screen.setText(numbers[holder]);
+            case R.id.button_point:
+                if(numbers[holder].indexOf(".")>=0)
+                    break;
+                numbers[holder] += .0;
+                numbers[holder] = numbers[holder].substring(0, numbers[holder].length() - 1);
+                numbers[holder] = numbers[holder].substring(0, numbers[holder].length() - 2) +
+                        numbers[holder].substring(numbers[holder].length() - 1, numbers[holder].length());
+                screen.setText(numbers[holder]);
                 break;
+
+            case R.id.imageButton_background:
+                bGPosition = (bGPosition + 1) % backgrounds.size();
+                imageBG.setImageResource(backgrounds.get(bGPosition));
+                break;
+
 
             //region Number Buttons
-            case R.id.button_zero : numbers[holder]+=0;
-                screen.setText(numbers[holder]); checkPossible(); break;
+            case R.id.button_zero:
+                numbers[holder] += 0;
+                screen.setText(numbers[holder]);
+                checkPossible();
+                break;
 
-            case R.id.button_one : numbers[holder]+=1;
-                screen.setText(numbers[holder]); checkPossible(); break;
+            case R.id.button_one:
+                numbers[holder] += 1;
+                screen.setText(numbers[holder]);
+                checkPossible();
+                break;
 
-            case R.id.button_two : numbers[holder]+=2;
-                screen.setText(numbers[holder]); checkPossible(); break;
+            case R.id.button_two:
+                numbers[holder] += 2;
+                screen.setText(numbers[holder]);
+                checkPossible();
+                break;
 
-            case R.id.button_three : numbers[holder]+=3;
-                screen.setText(numbers[holder]); checkPossible(); break;
+            case R.id.button_three:
+                numbers[holder] += 3;
+                screen.setText(numbers[holder]);
+                checkPossible();
+                break;
 
-            case R.id.button_four : numbers[holder]+=4;
-                screen.setText(numbers[holder]); checkPossible(); break;
+            case R.id.button_four:
+                numbers[holder] += 4;
+                screen.setText(numbers[holder]);
+                checkPossible();
+                break;
 
-            case R.id.button_five : numbers[holder]+=5;
-                screen.setText(numbers[holder]); checkPossible(); break;
+            case R.id.button_five:
+                numbers[holder] += 5;
+                screen.setText(numbers[holder]);
+                checkPossible();
+                break;
 
-            case R.id.button_six : numbers[holder]+=6;
-                screen.setText(numbers[holder]); checkPossible(); break;
+            case R.id.button_six:
+                numbers[holder] += 6;
+                screen.setText(numbers[holder]);
+                checkPossible();
+                break;
 
-            case R.id.button_seven : numbers[holder]+=7;
-                screen.setText(numbers[holder]); checkPossible(); break;
+            case R.id.button_seven:
+                numbers[holder] += 7;
+                screen.setText(numbers[holder]);
+                checkPossible();
+                break;
 
-            case R.id.button_eight : numbers[holder]+=8;
-                screen.setText(numbers[holder]); checkPossible(); break;
+            case R.id.button_eight:
+                numbers[holder] += 8;
+                screen.setText(numbers[holder]);
+                checkPossible();
+                break;
 
-            case R.id.button_nine : numbers[holder]+=9;
-                screen.setText(numbers[holder]); checkPossible(); break;
+            case R.id.button_nine:
+                numbers[holder] += 9;
+                screen.setText(numbers[holder]);
+                checkPossible();
+                break;
             //endregion
 
             //region Sign Buttons
-            case R.id.button_add : signNum = ADD;
-                holder++;
-                screen.setText("");
-                numbers[holder] = ""; break;
-
-            case R.id.button_subtract : signNum = SUB;
-                holder++;
-                screen.setText("");
-                numbers[holder] = ""; break;
-
-            case R.id.button_divide : signNum = DIV;
-                holder++ ;
+            case R.id.button_add:
+                setFirst();
+                checkPossible();
+                signNum = ADD;
+                holder = 1;
                 screen.setText("");
                 numbers[holder] = "";
-                 break;
+                break;
 
-
-            case R.id.button_multiply : signNum = MULT;
-                holder++ ;
+            case R.id.button_subtract:
+                setFirst();
+                checkPossible();
+                signNum = SUB;
+                holder = 1;
                 screen.setText("");
-                numbers[holder] = ""; break;
+                numbers[holder] = "";
+                break;
+
+            case R.id.button_divide:
+                setFirst();
+                checkPossible();
+                signNum = DIV;
+                holder = 1;
+                screen.setText("");
+                numbers[holder] = "";
+                break;
+
+
+            case R.id.button_multiply:
+                setFirst();
+                checkPossible();
+                signNum = MULT;
+                holder = 1;
+                screen.setText("");
+                numbers[holder] = "";
+                break;
             //endregion
 
             //region Enter Button
-            case R.id.button_enter :
+            case R.id.button_enter:
+                buttonAns.setEnabled(true);
                 holder = 0;
-                double first = Double.parseDouble(numbers[0]);
-                double second = Double.parseDouble(numbers[1]);
-                if(signNum ==ADD)
-                {
+                if(numbers[0].length()!=0)
+                first = Double.parseDouble(numbers[0]);
+                if(numbers[1].length()!=0)
+                second = Double.parseDouble(numbers[1]);
+                else{second =0;}
+                if (signNum == ADD) {
                     third = first + second;
-                    screen.setText(third+"");
-                    numbers[holder] = third+"";
+                    screen.setText(third + "");
+                    numbers[holder] ="";
 
-                }
-                else if(signNum ==SUB) {
+                } else if (signNum == SUB) {
                     third = first - second;
                     screen.setText(third + "");
-                    numbers[holder] = third+"";
-                }
-                else if (signNum == MULT) {
+                    numbers[holder] = "";
+                } else if (signNum == MULT) {
                     third = first * second;
-                    screen.setText(third+"");
-                    numbers[holder] = third+"";
-                }
-                else if (signNum == DIV) {
+                    screen.setText(third + "");
+                    numbers[holder] ="";
+                } else if (signNum == DIV) {
                     third = first / second;
-                    screen.setText(third+"");
-                    numbers[holder] = third+"";
+                    screen.setText(third + "");
+                    numbers[holder] ="";
                 }
-                    break;
+                else{
+                    third = first;
+                    screen.setText(third+"");
+                    numbers[holder]="";
+                }
+
+                break;
             //endregion
 
 
-            case R.id.button_ac : screen.setText("");
-                holder =0;
-                numbers[holder] ="";
-                numbers[holder+1] =""; checkPossible(); break;
+            case R.id.button_ac:
+                screen.setText("");
+                holder = 0;
+                numbers[0] = "";
+                numbers[1] = "";
+                checkPossible();
+                break;
 
-            case R.id.button_answer :
+            case R.id.button_answer:
                 numbers[holder] += third;
-                screen.setText(numbers[holder]); checkPossible();
+                screen.setText(numbers[holder]);
+                checkPossible();
                 break;
 
             //region Trigonometric Buttons
-            case R.id.button_sin :
+            case R.id.button_sin:
+                setFirst();
                 holder = 0;
                 double fird = Double.parseDouble(numbers[0]);
                 third = Math.sin(fird);
-                screen.setText(third+"");
+                screen.setText(third + "");
                 numbers[holder] = third + "";
                 checkPossible();
                 break;
 
-            case R.id.button_cos :
+            case R.id.button_cos:
+                setFirst();
                 holder = 0;
                 double dird = Double.parseDouble(numbers[0]);
                 third = Math.cos(dird);
-                screen.setText(third+"");
+                screen.setText(third + "");
                 numbers[holder] = third + "";
                 checkPossible();
                 break;
 
-            case R.id.button_tan : checkPossible();
+            case R.id.button_tan:
+                setFirst();
+                checkPossible();
                 holder = 0;
                 double gird = Double.parseDouble(numbers[0]);
                 third = Math.tan(gird);
-                screen.setText(third+"");
+                screen.setText(third + "");
                 numbers[holder] = third + "";
                 checkPossible();
                 break;
             //endregion
 
             //region Log and Ln Buttons
-            case R.id.button_log :
+            case R.id.button_log:
+                setFirst();
                 holder = 0;
                 double qird = Double.parseDouble(numbers[0]);
                 third = Math.log10(qird);
-                screen.setText(third+"");
+                screen.setText(third + "");
                 numbers[holder] = third + "";
                 checkPossible();
                 break;
 
-            case R.id.button_ln :
+            case R.id.button_ln:
+                setFirst();
                 holder = 0;
                 double jird = Double.parseDouble(numbers[0]);
                 third = Math.log(jird);
-                screen.setText(third+"");
+                screen.setText(third + "");
                 numbers[holder] = third + "";
                 checkPossible();
                 break;
@@ -299,4 +404,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 }
+
 //endregion

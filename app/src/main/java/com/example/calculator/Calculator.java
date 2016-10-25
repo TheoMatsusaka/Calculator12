@@ -1,3 +1,4 @@
+//region Calculator Class
 package com.example.calculator;
 
 /**
@@ -53,3 +54,4 @@ public class Calculator {
         return x;
     }
 }
+//endregion
