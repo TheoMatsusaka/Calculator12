@@ -49,7 +49,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //region Methods
     private void checkPossible() {
         if (numbers[0].length()==0) {
-//            imageBack.setEnabled(false);
+            imageBack.setEnabled(false);
+            buttonAdd.setEnabled(false);
+            buttonSub.setEnabled(false);
+            buttonMult.setEnabled(false);
+            buttonDivide.setEnabled(false);
+            buttonSin.setEnabled(false);
+            buttonCos.setEnabled(false);
+            buttonTan.setEnabled(false);
+            buttonLog.setEnabled(false);
+            buttonLn.setEnabled(false);
+            buttonEnter.setEnabled(false);
+        }
+        else if(numbers[holder].indexOf("N")>=0){
             buttonAdd.setEnabled(false);
             buttonSub.setEnabled(false);
             buttonMult.setEnabled(false);
@@ -63,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         else {
-//            imageBack.setEnabled(true);
+            imageBack.setEnabled(true);
             buttonAdd.setEnabled(true);
             buttonSub.setEnabled(true);
             buttonMult.setEnabled(true);
@@ -187,6 +199,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 numbers[holder] = numbers[holder].substring(0, numbers[holder].length() - 2) +
                         numbers[holder].substring(numbers[holder].length() - 1, numbers[holder].length());
                 screen.setText(numbers[holder]);
+                imageBack.setEnabled(true);
                 break;
 
             case R.id.imageButton_background:
@@ -298,6 +311,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             //region Enter Button
             case R.id.button_enter:
+                setFirst();
+                checkPossible();
                 buttonAns.setEnabled(true);
                 holder = 0;
                 if(numbers[0].length()!=0)
@@ -342,6 +357,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.button_answer:
+                if(numbers[holder].indexOf(third+"")>=0)
+                    break;
                 numbers[holder] += third;
                 screen.setText(numbers[holder]);
                 checkPossible();
@@ -403,6 +420,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //endregion
         }
     }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        //at this point, the layouts have proper width & height values.
+        //if you've wired your linearlayout, you can access the width & height
+        button0.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
+        button1.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
+        button2.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
+        button3.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
+        button4.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
+        button5.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
+        button6.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
+        button7.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
+        button8.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
+        button9.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
+        buttonTan.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
+        buttonCos.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
+        buttonSin.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
+        buttonLog.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
+        buttonLn.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
+        imageBack.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
+        buttonMult.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
+        buttonDivide.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
+        buttonDec.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
+        buttonAdd.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
+        buttonSub.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
+        buttonAns.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
+        buttonEnter.setLayoutParams(new LinearLayout.LayoutParams(2*background.getWidth()/5, background.getHeight()/5));
+        buttonAC.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
+        button0.setText("0");
+//        http://stackoverflow.com/questions/11293932/programmatically-change-the-width-of-the-button-in-android
+    }
+
 }
 
 //endregion
