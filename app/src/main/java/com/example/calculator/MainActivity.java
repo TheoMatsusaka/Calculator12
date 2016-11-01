@@ -28,7 +28,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final int DIV = 2;
     public static final int MULT = 3;
     public TextView screen;
-    public LinearLayout background;
+    public LinearLayout background, l1,l2,l3,l4, l5, lF;
+    public boolean possible;
 
     //endregion
     @Override
@@ -48,7 +49,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //region Methods
     private void checkPossible() {
-        if (numbers[0].length()==0) {
+       if (numbers[0].length()==0) {
+           possible = false;
             imageBack.setEnabled(false);
             buttonAdd.setEnabled(false);
             buttonSub.setEnabled(false);
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             buttonEnter.setEnabled(false);
         }
         else if(numbers[holder].indexOf("N")>=0){
+           possible = false;
             buttonAdd.setEnabled(false);
             buttonSub.setEnabled(false);
             buttonMult.setEnabled(false);
@@ -73,8 +76,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             buttonLn.setEnabled(false);
             buttonEnter.setEnabled(false);
         }
-
         else {
+           possible = true;
             imageBack.setEnabled(true);
             buttonAdd.setEnabled(true);
             buttonSub.setEnabled(true);
@@ -86,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             buttonLog.setEnabled(true);
             buttonLn.setEnabled(true);
             buttonEnter.setEnabled(true);
-
         }
     }
 
@@ -148,6 +150,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonLn = (Button) findViewById(R.id.button_ln);
         imageBG = (ImageButton) findViewById(R.id.imageButton_background);
         background = (LinearLayout) findViewById(R.id.layor_background);
+        l1 = (LinearLayout) findViewById(R.id.l1);
+        l2 = (LinearLayout) findViewById(R.id.l2);
+        l3 = (LinearLayout) findViewById(R.id.l3);
+        l4 = (LinearLayout) findViewById(R.id.l4);
+        l5 = (LinearLayout) findViewById(R.id.l5);
+        imageBG.setVisibility(View.GONE);
+        lF = (LinearLayout) findViewById(R.id.filler_layout);
 
     }
 
@@ -203,8 +212,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.imageButton_background:
-                bGPosition = (bGPosition + 1) % backgrounds.size();
-                imageBG.setImageResource(backgrounds.get(bGPosition));
                 break;
 
 
@@ -450,7 +457,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonAns.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
         buttonEnter.setLayoutParams(new LinearLayout.LayoutParams(2*background.getWidth()/5, background.getHeight()/5));
         buttonAC.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()/5, background.getHeight()/5));
-        button0.setText("0");
+        l1.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth(), background.getHeight()/7));
+        l2.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth(), background.getHeight()/7));
+        l3.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth(), background.getHeight()/7));
+        l4.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth(), background.getHeight()/7));
+        l5.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth(), background.getHeight()/7));
+        screen.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth()*9/10, background.getHeight()/8));
+        lF.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth(), background.getHeight()/7));
+
 //        http://stackoverflow.com/questions/11293932/programmatically-change-the-width-of-the-button-in-android
     }
 
