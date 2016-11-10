@@ -4,13 +4,12 @@ package com.example.calculator;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -20,8 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             buttonDivide, buttonAC, buttonDec, buttonAns, button0, buttonSin, buttonCos, buttonTan, buttonLog, buttonLn;
     public ImageButton imageBack, imageBG;
     public String[] numbers;
-    public ArrayList<Integer> backgrounds;
-    public int signNum, bGPosition, holder;
+    public int signNum, holder;
     public double third, first, second;
     public static final int ADD = 0;
     public static final int SUB = 1;
@@ -191,6 +189,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
 
             case R.id.button_back:
+                if(numbers[0].length()==1 )
+                    redraw();
+
                 setFirst();
                 makeToast();
                 if(numbers[holder].length()==0)
@@ -356,7 +357,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
             case R.id.button_ac:
+                redraw();
                 screen.setText("");
+
+                //Toast.makeText(MainActivity.this, "does this work", Toast.LENGTH_SHORT).show();
                 holder = 0;
                 numbers[0] = "";
                 numbers[1] = "";
@@ -428,6 +432,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    //region Resizing
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -466,6 +471,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         lF.setLayoutParams(new LinearLayout.LayoutParams(background.getWidth(), background.getHeight()/7));
 
 //        http://stackoverflow.com/questions/11293932/programmatically-change-the-width-of-the-button-in-android
+    }
+    //endregion
+
+    public void redraw()
+    {
+        ViewGroup vg = (ViewGroup) findViewById (R.id.layor_background);
+        vg.invalidate();
     }
 
 }
